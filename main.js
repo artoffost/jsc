@@ -33,7 +33,7 @@ async function setupAudio() {
           // Set a timeout to show the message after 2 seconds
           blowTimeout = setTimeout(() => {
             alert('Happy 21st Birthday Appey!!!!');
-          }, 1500);
+          }, 1000);
         }
       }
       

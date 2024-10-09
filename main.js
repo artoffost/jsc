@@ -2,6 +2,8 @@
 let audioContext;
 let analyzer;
 let microphone;
+let isBlown = false;
+let blowTimeout;
 
 // Function to set up the audio context and analyzer
 async function setupAudio() {
@@ -22,16 +24,22 @@ async function setupAudio() {
       const average = dataArray.reduce((a, b) => a + b) / bufferLength;
       
       // Adjust this threshold value as needed
-      if (average > 50) {
+      if (average > 50 && !isBlown) {
         const flame = document.querySelector('.flame');
         if (flame) {
           flame.style.display = 'none';
-
-          alert('Happy 21st Birthday Appey!!!');
+          isBlown = true;
+          
+          // Set a timeout to show the message after 2 seconds
+          blowTimeout = setTimeout(() => {
+            alert('Happy 21st Birthday Appey!!!!');
+          }, 2000);
         }
       }
       
-      requestAnimationFrame(checkAudioLevel);
+      if (!isBlown) {
+        requestAnimationFrame(checkAudioLevel);
+      }
     }
     
     checkAudioLevel();
@@ -39,6 +47,7 @@ async function setupAudio() {
     console.error('Error accessing microphone:', error);
   }
 }
+
 
 // Function to start listening when the page loads
 function init() {
